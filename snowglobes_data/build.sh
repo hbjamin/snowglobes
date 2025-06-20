@@ -6,7 +6,7 @@ cp -r ../LICENSE ../detector_configurations.dat ../channels ../effic ../smear ..
 
 # Get version number from environment variable (in GitHub Action); fall back to latest git tag for local installs
 if [ ! $GIT_VERSION ]; then
-  GIT_VERSION=`git describe --dirty | sed 's/v//'`;
+  GIT_VERSION=`git describe --dirty | sed 's/v//' | sed 's/-/+/'`;
 fi
 echo "__version__ = '$GIT_VERSION'" > src/snowglobes_data/__init__.py
 
