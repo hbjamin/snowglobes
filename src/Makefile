@@ -94,7 +94,7 @@ OBJ = supernova.o myio.o FormFactor.o cevns_recoil_response.o
 
 $(libdiffspec) : $(OBJ)
 	$(RM) $@
-	ar clq $@ $(OBJ)
+	ar cr $@ $(OBJ)
 	ranlib $@
 
 formfactors: formfactors.o $(libdiffspec) 
