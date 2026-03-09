@@ -8,12 +8,15 @@ void stpi_flux()
 
     // SNS flux parameters
 
+  // Double_t MeVperproton = 1300.;
   Double_t MeVperproton = 1010.;
 
     Double_t Jperproton = MeVperproton*1e6*1.6021e-19;
+    //Double_t Beampower = 2.8e6;
     Double_t Beampower = 1.4e6;
     Double_t Protonspersec = Beampower/Jperproton;
-    Double_t Nusperprotonperflavor = 0.09;
+    //Double_t Nusperprotonperflavor = 0.12
+    Double_t Nusperprotonperflavor = 0.09
     Double_t Nuspersecperflavor = Nusperprotonperflavor*Protonspersec;
     Double_t flux_per_s_percm2_at_20m = Nuspersecperflavor/(4*TMath::Pi()*2000*2000);
     cout << "Flux per second per cm^2 at 20 m per flavor: "<< flux_per_s_percm2_at_20m <<endl;
