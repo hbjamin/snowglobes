@@ -7,7 +7,7 @@ halo1          0.079    0.004808
 halo2          1.       0.004808
 novaND         0.3      0.107
 novaFD         14.      0.107
-d2O            .001     0.1
+d2O            .001    0.1
 wc100kt30prct_he 100.   0.1111
 ar40kt_he      40.      0.025
 icecube	       51600.   0.1111
@@ -17,5 +17,8 @@ argo           0.3      0.025
 lz             0.007    0.0035
 xent           0.006    0.0035
 pandax         0.004    0.0035
-d2O_inner      0.000592 0.1
-d2O_outer      0.000512 0.1111
+eos            0.004    0.1111
+
+# For verifying results in COHERENT paper https://arxiv.org/abs/2104.09605
+# d2O_inner      0.000598 0.1
+# d2O_outer      0.000514 0.1111
