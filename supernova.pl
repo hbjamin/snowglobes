@@ -544,16 +544,16 @@ if ( $run_choice == '0' ) {
               . $_[0]
               . "_unweighted.dat";
 
-            $weightedfilename =
-                "> out/"
+            $weightedfilename = "out/"
               . $fluxname . "_"
               . $chan_name . "_"
               . $expt_config
               . "_events"
-              . $_[0] . ".dat";
+              . $_[0] 
+              . ".dat";
 
             open( UNWEIGHT, $unweightfilename );
-            open( WEIGHTED, $weightedfilename );
+            open( WEIGHTED, $weightedfilename ) or die "Cannot open unweighted file $unweightfilename: $!\n";;
             while (<UNWEIGHT>) {
                 $_ =~ s/\s*//;
                 $_ =~ s/\s+/ /g;
@@ -998,61 +998,87 @@ if ( $run_choice == '1' ) {
             &apply_weights("_smeared");
 
         }
-
         sub apply_weights {
-
-        # Open the unweighted output file to read and the weighted file to write
-        # print  $_[0],"\n";
-            $unweightfilename = "out/"
-              . $fluxname . "_"
-              . $chan_name . "_"
-              . $expt_config
-              . "_events"
-              . $_[0]
-              . "_unweighted.dat";
-
-            $weightedfilename =
-                "> out/"
-              . $fluxname . "_"
-              . $chan_name . "_"
-              . $expt_config
-              . "_events"
-              . $_[0] . ".dat";
-
-            open( UNWEIGHT, $unweightfilename );
-            open( WEIGHTED, $weightedfilename );
-            while (<UNWEIGHT>) {
-                $_ =~ s/\s*//;
+            print "Applying channel weights...\n";
+            open( CHANFILE, $chanfilename ) or die "Cannot open channel file $chanfilename: $!\n";
+        
+            while (<CHANFILE>) {
+                # Skip energy window info line
+                next if /%/;
+        
+                # Grab the channel name
+                $_ =~ s/^\s+|\s+$//g;  # Trim whitespace
                 $_ =~ s/\s+/ /g;
-
-                if (/---/) {
-                    print WEIGHTED $_, "\n";
+        
+                my @stuff = split( /\s+/, $_ );
+                my $chan_name         = $stuff[0];
+                my $num_target_factor = $stuff[4] // 0;  # Default to 0 if undefined
+        
+                # Skip if no valid target factor
+                if ($num_target_factor == 0) {
+                    print "Skipping channel $chan_name: target factor is 0 or undefined.\n";
+                    next;
                 }
-                else {
-                    @stuff2 = split( /\ /, $_ );
-                    $enbin  = $stuff2[0];
-                    $evrate = $stuff2[1];
-
-                    if ( $enbin ne "" ) {
-                        print WEIGHTED $enbin, " ",
-                          $evrate * $num_target_factor,
-                          "\n";
-
+        
+                # Construct filenames
+                my $unweightfilename = "out/"
+                  . $fluxname . "_"
+                  . $chan_name . "_"
+                  . $expt_config
+                  . "_events"
+                  . $_[0]
+                  . "_unweighted.dat";
+        
+                my $weightedfilename = "out/"
+                  . $fluxname . "_"
+                  . $chan_name . "_"
+                  . $expt_config
+                  . "_events"
+                  . $_[0] . ".dat";
+        
+                # Debugging: Print file paths
+                print "Unweighted file: $unweightfilename\n";
+                print "Weighted file: $weightedfilename\n";
+        
+                # Check if unweighted file exists
+                unless ( -f $unweightfilename ) {
+                    print "Unweighted file $unweightfilename not found. Skipping.\n";
+                    next;
+                }
+        
+                # Open files
+                open( my $unweight_fh, '<', $unweightfilename )
+                  or die "Cannot open unweighted file $unweightfilename: $!\n";
+                open( my $weighted_fh, '>', $weightedfilename )
+                  or die "Cannot create weighted file $weightedfilename: $!\n";
+        
+                while (<$unweight_fh>) {
+                    $_ =~ s/^\s+|\s+$//g;  # Trim whitespace
+        
+                    if (/---/) {
+                        print $weighted_fh $_, "\n";
+                    }
+                    else {
+                        my @stuff2 = split( /\s+/, $_ );
+                        my $enbin  = $stuff2[0];
+                        my $evrate = $stuff2[1];
+                        if ( $enbin ne "" ) {
+                            my $weighted_rate = $evrate * $num_target_factor;
+                            print $weighted_fh $enbin, " ", $weighted_rate, "\n";
+                        }
                     }
                 }
-
+        
+                close($unweight_fh);
+                close($weighted_fh);
+        
+                print "Created weighted file: $weightedfilename\n";
             }
-
-            close(UNWEIGHT);
-            close(WEIGHTED);
-
+        
+            close(CHANFILE);
         }
 
-        print "\n";
-        $my_chan_num++;
     }
-    close(CHANFILE);
-
     print("All done !!\n");
 
     # Time benchmark
