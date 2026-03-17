@@ -36,4 +36,5 @@ root -l
 run_smears_water();
 ```
 
+then move the results from `smearing_code/out` to `smear/<detector>`
 

@@ -1,0 +1,9 @@
+To generate new stpi flux outputs, change the hardcoded parameters inside and then run
+
+```bash
+root -l
+gSystem->Load("libMathCore");
+#include "TMath.h"
+.L stpi_flux.C
+stpi_flux();
+```
