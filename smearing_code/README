@@ -2,12 +2,38 @@ Code to create smearing matrices
 
 interaction subdirectory contains code to make a smearing matrix to create a simple interaction matrix with a shift in energy corresponding to a threshold.
 
+can save time by running
+```bash
+bash make_interactions_water.sh
+```
+or
+```bash
+bash make_interactions_heavywater.sh
+```
+
 output is the ssv file
 
 resolution subdirectory contains code to apply a Gaussian resolution
 
+```bash
+./gaussian_resolution 0.1
+```
+
 Unit matrix files also provide
 
-smear.C  multiplies interaction and resolution matrix and puts the final smearing matrix in the out subdirectory.
+```bash
+./unit_matrix
+```
+
+`smear.C`  multiplies interaction and resolution matrix and puts the final smearing matrix in the out subdirectory.
+
+can save time by calling `smear.C` repeatedly using a script like `run_smears_heavywater.C` or `run_smears_water.C`. Inside set res to `0.1` or `unit_matrix`.
+
+```bash
+root -l 
+.L smear.C
+.L run_smears_water.C
+run_smears_water();
+```
 
 
