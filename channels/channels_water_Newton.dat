@@ -5,15 +5,11 @@ numu_e 3 + m 5.
 numubar_e 4 - m 5.
 nutau_e 5 + t 5.
 nutaubar_e 6 - t 5.
-nue_O16 7 + e 0.5
+nue_O16_Newton 7 + e 0.5
 nuebar_O16 8 - e 0.5
-nc_nue_O16 9 + e 0.5
 nc_nue_O16 9 + e 0.5
 nc_nuebar_O16 10 - e 0.5 
 nc_numu_O16 11 + m 0.5
 nc_numubar_O16 12 - m 0.5
 nc_nutau_O16 13 + t 0.5
 nc_nutaubar_O16 14 - t 0.5
-nc_nue_O16_2 15 + e 0.5
-nc_nue_O16_Suzuki2018 16 + e 0.5
-nc_nue_O16_Newton 17 + e 0.5
