@@ -14,6 +14,6 @@ nc_numu_O16 11 + m 0.5
 nc_numubar_O16 12 - m 0.5
 nc_nutau_O16 13 + t 0.5
 nc_nutaubar_O16 14 - t 0.5
-nc_nue_O16_2 15 + e 0.5
-nc_nue_O16_Suzuki2018 16 + e 0.5
-nc_nue_O16_Newton 17 + e 0.5
+nue_O16_2 15 + e 0.5
+nue_O16_Suzuki2018 16 + e 0.5
+nue_O16_Newton 17 + e 0.5
