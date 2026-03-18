@@ -4,21 +4,14 @@
 declare -A thresholds=(
 
   [nue_e]=0.0
-  [nuebar_e]=0.0
   [numu_e]=0.0
   [numubar_e]=0.0
-  [nutau_e]=0.0
-  [nutaubar_e]=0.0
 
-  [nue_O16]=16.3
-  [nuebar_O16]=13.6
   [nc_nue_O16]=14.0
-  [nc_nuebar_O16]=14.0
   [nc_numu_O16]=14.0
   [nc_numubar_O16]=14.0
-  [nc_nutau_O16]=14.0
-  [nc_nutaubar_O16]=14.0
 
+  [nue_O16]=16.3
   [nue_O16_2]=19.9
   [nue_O16_Suzuki2018]=16
   [nue_O16_Newton]=16

@@ -1,27 +1,22 @@
 //#include "Math/Polynomial.h"
 #include "Math/Interpolator.h"
 
-void stpi_flux()
+void stpi_flux_old()
 {
 
   using namespace std;
 
+    // SNS flux parameters
 
-  // SNS first target station flux parameters
-  bool proton_power_upgrade = true;
-  int meters_from_target = 20;
+  Double_t MeVperproton = 1010.;
 
-  string output_file = "sns" + string(proton_power_upgrade ? "_ppu" : "") + "_" + to_string(meters_from_target) + "m.dat";
-
-  Double_t MeVperproton = proton_power_upgrade ? 1300. : 1010.;
-  Double_t Beampower = proton_power_upgrade ? 2e6 : 1.4e6;
-  Double_t Nusperprotonperflavor = proton_power_upgrade ? 0.13 : 0.087;
-
-  Double_t Jperproton = MeVperproton*1e6*1.6021e-19;
-  Double_t Protonspersec = Beampower/Jperproton;
-  Double_t Nuspersecperflavor = Nusperprotonperflavor*Protonspersec;
-  Double_t flux_per_s_percm2_at_20m = Nuspersecperflavor/(4*TMath::Pi()*meters_from_target*meters_from_target*1e4);
-  cout << "Flux per second per cm^2 at 20 m per flavor: "<< flux_per_s_percm2_at_20m <<endl;
+    Double_t Jperproton = MeVperproton*1e6*1.6021e-19;
+    Double_t Beampower = 1.4e6;
+    Double_t Protonspersec = Beampower/Jperproton;
+    Double_t Nusperprotonperflavor = 0.09;
+    Double_t Nuspersecperflavor = Nusperprotonperflavor*Protonspersec;
+    Double_t flux_per_s_percm2_at_20m = Nuspersecperflavor/(4*TMath::Pi()*2000*2000);
+    cout << "Flux per second per cm^2 at 20 m per flavor: "<< flux_per_s_percm2_at_20m <<endl;
 
   // Read in the data from the file
 
@@ -56,14 +51,11 @@ void stpi_flux()
   ie=minen+step/2.+extra;
 
   ofstream out;
-  out.open(output_file);
+  out.open("stpi2.dat");
 
   Double_t sumnue= 0;
   for (i=0;i<numipoints;i++) {
 
-    // Default all flavors to zero each bin; we will fill the
-    // continuous spectra below, and force monochromatic numu into one bin.
-    inumu[i]=0.;
     inuebar[i]=0.;
     inutau[i]=0.;
     inutaubar[i]=0.;
@@ -82,6 +74,8 @@ void stpi_flux()
 
 
     ien[i]=ie;
+    cout << i<<" "<<ie<<" "<<inue[i]<<" "<<inumu[i]<<" "<<
+      inutau[i]<<" "<<inuebar[i]<<" "<<inumubar[i]<<" "<<inutaubar[i]<<endl;    
     // Output for Globes needs to be in GeV
 
     // Normalization factor
@@ -128,9 +122,6 @@ void stpi_flux()
 
     sumnue += inue[i]*fac;
 
-    cout << i<<" "<<ie<<" "<<inue[i]<<" "<<inumu[i]<<" "<<
-      inutau[i]<<" "<<inuebar[i]<<" "<<inumubar[i]<<" "<<inutaubar[i]<<endl;    
-    
     
     out <<TString::Format("%12.10f",ie/1000) <<" "<<inue[i]*fac<<" "<<inumu[i]*fac<<" "<<
       inutau[i]*fac<<" "<<inuebar[i]*fac<<" "<<inumubar[i]*fac<<" "<<inutaubar[i]*fac<<endl;    
