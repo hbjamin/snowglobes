@@ -23,7 +23,7 @@ for ($icol=0;$icol<$matsize;$icol++) {
     $encol = $binsize*($icol+1);
 
 # Energy observed for the given neutrino energy
-    $edep = $encol-$threshold;
+    $edep = $encol-$thresh;
     
     if (abs($enrow-$edep)<$binsize/2.) {
       $intmat[$irow][$icol] = 1.;

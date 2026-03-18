@@ -18,6 +18,7 @@ lz             0.007    0.0035
 xent           0.006    0.0035
 pandax         0.004    0.0035
 eos            0.004    0.1111
+eos_av         0.00043  0.08
 
 # For verifying results in COHERENT paper https://arxiv.org/abs/2104.09605
 # d2O_inner      0.000598 0.1

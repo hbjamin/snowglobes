@@ -1,8 +1,8 @@
 import numpy as np
 
 # Input and output file names
-infile = '16ONewton.txt'  # your original two-column file
-outfile = 'xs_nue_O16_Newton.dat'
+infile = 'ibdNewton.txt'  # your original two-column file
+outfile = 'ibd_bad.dat'
 
 # Load the data
 data = np.loadtxt(infile)  

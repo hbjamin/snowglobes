@@ -8,10 +8,10 @@ void stpi_flux()
 
 
   // SNS first target station flux parameters
-  bool proton_power_upgrade = true;
-  Double_t meters_from_target = 20;
+  bool proton_power_upgrade = false;
+  int meters_from_target = 20;
 
-  string output_file = "sns_" + (proton_power_upgrade ? "ppu" : "bpp") + "_" + to_string(meters_from_target) + "m.dat";
+  string output_file = "sns" + string(proton_power_upgrade ? "_ppu" : "") + "_" + to_string(meters_from_target) + "m.dat";
 
   Double_t MeVperproton = proton_power_upgrade ? 1300. : 1010.;
   Double_t Beampower = proton_power_upgrade ? 2e6 : 1.4e6;
@@ -61,6 +61,9 @@ void stpi_flux()
   Double_t sumnue= 0;
   for (i=0;i<numipoints;i++) {
 
+    // Default all flavors to zero each bin; we will fill the
+    // continuous spectra below, and force monochromatic numu into one bin.
+    inumu[i]=0.;
     inuebar[i]=0.;
     inutau[i]=0.;
     inutaubar[i]=0.;
@@ -79,8 +82,6 @@ void stpi_flux()
 
 
     ien[i]=ie;
-    cout << i<<" "<<ie<<" "<<inue[i]<<" "<<inumu[i]<<" "<<
-      inutau[i]<<" "<<inuebar[i]<<" "<<inumubar[i]<<" "<<inutaubar[i]<<endl;    
     // Output for Globes needs to be in GeV
 
     // Normalization factor
@@ -127,6 +128,9 @@ void stpi_flux()
 
     sumnue += inue[i]*fac;
 
+    cout << i<<" "<<ie<<" "<<inue[i]<<" "<<inumu[i]<<" "<<
+      inutau[i]<<" "<<inuebar[i]<<" "<<inumubar[i]<<" "<<inutaubar[i]<<endl;    
+    
     
     out <<TString::Format("%12.10f",ie/1000) <<" "<<inue[i]*fac<<" "<<inumu[i]*fac<<" "<<
       inutau[i]*fac<<" "<<inuebar[i]*fac<<" "<<inumubar[i]*fac<<" "<<inutaubar[i]*fac<<endl;    

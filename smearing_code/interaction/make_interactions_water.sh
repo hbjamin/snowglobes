@@ -2,7 +2,6 @@
 
 # Channel-to-threshold mapping
 declare -A thresholds=(
-  [ibd]=1.9
 
   [nue_e]=0.0
   [nuebar_e]=0.0
